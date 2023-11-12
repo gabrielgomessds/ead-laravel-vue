@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller; // Adicione esta linha para importar a classe Controller
-use App\Repositories\ModuleRepository; // Certifique-se de importar a classe ModuleRepository
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ModuleResource;
+use App\Repositories\ModuleRepository;
+use Illuminate\Http\Request;
 
 class ModuleController extends Controller
 {
     protected $repository;
 
-    public function __construct(ModuleRepository $moduleRespository)
+    public function __construct(ModuleRepository $moduleRepository)
     {
-        $this->repository = $moduleRespository;
+        $this->repository = $moduleRepository;
     }
 
     public function index($courseId)
     {
-       $modules = $this->repository->getModulesByCouseId($courseId);
+        $modules = $this->repository->getModulesByCourseId($courseId);
 
-       return ModuleResource::collection($modules);
+        return ModuleResource::collection($modules);
     }
+
 }

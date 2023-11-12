@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\UuidTrait;
 
 class Module extends Model
 {
@@ -15,4 +15,15 @@ class Module extends Model
     protected $keyType = 'uuid';
 
     protected $fillable = ['name'];
+
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
 }
