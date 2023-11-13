@@ -7,6 +7,8 @@ use App\Http\Resources\SupportResource;
 use App\Repositories\SupportRepository;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSupport;
+use App\Http\Requests\StoreReplySupport;
+use App\Http\Resources\ReplySupportResource;
 
 class SupportController extends Controller
 {
@@ -29,6 +31,13 @@ class SupportController extends Controller
         $supports = $this->repository->createNewSupport($request->validated());
 
         return new SupportResource($supports);
+    }
+
+    public function createReply(StoreReplySupport $request, $supportId)
+    {
+        $reply = $this->repository->createReplyToSupportId($supportId, $request->validated());
+
+        return new ReplySupportResource($reply);
     }
 
 }
