@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\LessonResource;
 
 class SupportResource extends JsonResource
 {
@@ -17,7 +19,9 @@ class SupportResource extends JsonResource
         return [
             'status' => $this->status,
             'status_label' => $this->statusOptions[$this->status],
-            'description' => $this->description
+            'description' => $this->description,
+            'user' => new UserResource($this->user),
+            'lesson' => new LessonResource($this->user),
         ];
     }
 }

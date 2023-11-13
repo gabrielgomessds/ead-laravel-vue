@@ -27,11 +27,12 @@ class Support extends Model
 
     public function user()
     {
-        return $this->belongTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function lesson()
     {
-        return $this->belongTo(Lesson::class);
+        return $this->belongsTo(Lesson::class);
     }
+
 }
