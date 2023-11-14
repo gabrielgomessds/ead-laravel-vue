@@ -58,7 +58,9 @@ class SupportRepository
                     ->create([
                         'description' => $data['description'],
                         'user_id' => $user->id
-                    ]);
+                    ])
+                    ->orderBy('updated_at')
+                    ->get();
     }
 
     private function getSupport(string $id)

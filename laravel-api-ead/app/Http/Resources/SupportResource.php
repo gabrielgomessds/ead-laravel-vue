@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\LessonResource;
+use Carbon\Carbon;
 
 class SupportResource extends JsonResource
 {
@@ -24,6 +25,7 @@ class SupportResource extends JsonResource
             'user' => new UserResource($this->user),
             'lesson' => new LessonResource($this->user),
             'replies' => LessonResource::collection($this->replies),
+            'dt_updated' => Carbon::make($this->updated_at)->format('Y-m-d H:i:s')
         ];
     }
 }

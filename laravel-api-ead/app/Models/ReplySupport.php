@@ -18,6 +18,7 @@ class ReplySupport extends Model
 
     protected $table = 'reply_support';
 
+    protected $touches = ['support'];
 
     public function support()
     {
