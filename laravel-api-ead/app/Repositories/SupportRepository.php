@@ -4,10 +4,13 @@ namespace App\Repositories;
 
 use App\Models\Support;
 use App\Models\User;
+use App\Repositories\Traits\RepositoryTrait;
 
 class SupportRepository
 {
     protected $entity;
+
+    use RepositoryTrait;
 
     public function __construct(Support $model)
     {
@@ -53,9 +56,11 @@ class SupportRepository
     {
         $user = $this->getUserAuth();
 
-        return $this->getSupport($supportId)
-                    ->replies()
+        $support = app(SupportRepository::class)->getSupport($supportId);
+
+        return $this->entity
                     ->create([
+                        'support_id' => $data['support'],
                         'description' => $data['description'],
                         'user_id' => $user->id
                     ])
@@ -70,10 +75,4 @@ class SupportRepository
 
     }
 
-    private function getUserAuth(): User
-    {
-        //return auth()->user();
-        return User::first();
-
-    }
 }
