@@ -3,13 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\ReplySupport;
-use App\Models\User;
 use App\Repostitories\Traits\RepositoryTrait;
 
 class ReplySupportRepository
 {
     protected $entity;
     use RepositoryTrait; 
+
 
     public function __construct(ReplySupport $model)
     {
@@ -20,17 +20,12 @@ class ReplySupportRepository
     {
         $user = $this->getUserAuth();
 
-        return $this->getSupport($supportId)
-                    ->replies()
+        return $this->getSupport()
                     ->create([
+                        'support_id' => $data['support_id'],
                         'description' => $data['description'],
                         'user_id' => $user->id
-                    ])
-                    ->orderBy('updated_at')
-                    ->get();
+                    ]);
     }
-
-
-
  
 }
