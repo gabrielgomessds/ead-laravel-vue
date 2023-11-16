@@ -16,6 +16,6 @@ class Course extends Model
 
     public function modules()
     {
-        return $this->belongToMany(Course::class);
+        return $this->belongsToMany(Course::class);
     }
 }
