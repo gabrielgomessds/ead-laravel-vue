@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth', [AuthController::class, 'auth']);
 
+Route::middleware(['auth:sanctum'])->group(function () {
+
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
 
@@ -28,6 +30,8 @@ Route::get('/my-supports', [SupportController::class, 'mySupports']);
 Route::post('/supports', [SupportController::class, 'store']);
 
 Route::post('/replies', [ReplySupportController::class, 'createReply']);
+
+});
 
 Route::get('/', function() {
     return response()->json([
