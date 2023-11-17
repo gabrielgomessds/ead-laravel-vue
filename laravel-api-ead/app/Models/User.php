@@ -50,10 +50,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function sendEmailVerificationNotification($token)
+    /* public function sendEmailVerificationNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
-    }
+    } */
 
     public function supports()
     {
