@@ -19,4 +19,13 @@ class Lesson extends Model
         return $this->hasMany(Support::class);
     }
     
+    public function views()
+    {
+        return $this->hasMany(View::class)
+                    ->where(function($query) {
+                        if(auth()->check()){
+                            return $query->where('', auth()->user()->id);
+                        }
+                    });
+    }
 }

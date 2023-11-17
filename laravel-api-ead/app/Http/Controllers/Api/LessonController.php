@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LessonResource;
 use App\Repositories\LessonRepository;
+use App\Http\Requests\StoreView;
 
 class LessonController extends Controller
 {
@@ -27,5 +28,11 @@ class LessonController extends Controller
     {
 
        return new LessonResource($this->repository->getLesson($moduleId));
+    }
+
+    public function viewed(StoreView $request)
+    {
+        $this->repository->markLessonViewed($request->lesson);
+        return response()->json(['success' => true]);
     }
 }
