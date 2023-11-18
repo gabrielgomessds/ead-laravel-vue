@@ -22,7 +22,7 @@ class StoreView extends FormRequest
     public function rules(): array
     {
         return [
-            'lesson' => ['required', 'exists:lesson,id']
+            'lesson' => ['required', 'exists:lessons,id']
         ];
     }
 }
