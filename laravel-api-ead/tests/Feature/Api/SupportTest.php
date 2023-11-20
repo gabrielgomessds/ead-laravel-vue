@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\Lesson;
 use App\Models\Support;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -40,5 +41,63 @@ class SupportTest extends TestCase
 
         $response->assertStatus(200)
                 ->assertJsonCount(50, 'data');
+    }
+
+    public function test_get_supports_unauthantication(): void
+    {
+
+        $response = $this->getJson('/api/supports');
+
+        $response->assertStatus(401);
+    }
+
+    public function test_get_supports(): void
+    {
+        Support::factory()->count(50)->create();
+
+        $response = $this->getJson('/api/supports', $this->defaultHeadres());
+
+        $response->assertStatus(200)
+                 ->assertJsonCount(50, 'data');
+    }
+
+
+    public function test_get_supports_filter_lesson(): void
+    {
+        $lesson = Lesson::factory()->create();
+        Support::factory()->count(50)->create();
+        Support::factory()->count(10)->create([
+            'lesson_id' => $lesson->id,
+        ]);
+
+        $playload = ['lesson' => $lesson->id];
+
+        $response = $this->json('GET','/api/supports', $playload, $this->defaultHeadres());
+
+        $response->assertStatus(200)
+                 ->assertJsonCount(10, 'data');
+    }
+
+    public function test_create_support_error_validations(): void
+    {
+
+        $response = $this->postJson('/api/supports', [], $this->defaultHeadres());
+
+        $response->assertStatus(422);
+    }
+
+    public function test_create_support(): void
+    {
+
+        $lesson = Lesson::factory()->create();
+
+        $playload = [
+            'lesson' => $lesson->id,
+            'status' => 'P',
+            'description' =>'ajdjahdjahdjahdjs',
+        ];
+
+        $response = $this->postJson('/api/supports', $playload, $this->defaultHeadres());
+        $response->assertStatus(201);
     }
 }

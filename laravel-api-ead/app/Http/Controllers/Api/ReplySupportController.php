@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\ReplySupportRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreReplySupport;
 use App\Http\Resources\ReplySupportResource;
-use App\Http\Controller\Api\ReplySupportRepository;
+
 
 class ReplySupportController extends Controller
 {
@@ -19,7 +20,7 @@ class ReplySupportController extends Controller
 
     public function createReply(StoreReplySupport $request)
     {
-        $reply = $this->repository->createReplyToSupportId($request->validated());
+        $reply = $this->repository->createReplyToSupport($request->validated());
 
         return new ReplySupportResource($reply);
     }
