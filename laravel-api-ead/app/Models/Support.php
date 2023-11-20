@@ -5,9 +5,6 @@ namespace App\Models;
 use App\Models\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Lesson;
-
 
 class Support extends Model
 {
@@ -17,7 +14,7 @@ class Support extends Model
 
     protected $keyType = 'uuid';
 
-    protected $fillable = ['status','description','lesson_id'];
+    protected $fillable = ['status', 'description', 'lesson_id'];
 
     public $statusOptions = [
         'P' => 'Pendente, Aguardando Professor',
@@ -39,5 +36,4 @@ class Support extends Model
     {
         return $this->hasMany(ReplySupport::class);
     }
-
 }

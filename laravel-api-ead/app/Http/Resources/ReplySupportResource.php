@@ -2,23 +2,21 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\SupportResource;
 
 class ReplySupportResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @return array<string, mixed>
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray(Request $request): array
+    public function toArray($request)
     {
         return [
             'description' => $this->description,
-            'support' => new SupportResource($this->support),
+            'support' => new SupportResource($this->whenLoaded('support')),
             'user' => new UserResource($this->user),
         ];
     }

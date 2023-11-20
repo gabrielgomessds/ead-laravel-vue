@@ -10,56 +10,51 @@ use Tests\TestCase;
 class CourseTest extends TestCase
 {
     use UtilsTraits;
-    public function test_unauthenticated(): void
-    {
-        //$token = $this->createTokenUser();
 
+    public function test_unauthenticated()
+    {
         $response = $this->getJson('/api/courses');
 
         $response->assertStatus(401);
     }
 
-    public function test_get_all_courses(): void
+    public function test_get_all_courses()
     {
-        $token = $this->createTokenUser();
-
-        $response = $this->getJson('/api/courses', $this->defaultHeadres());
+        $response = $this->getJson('/api/courses', $this->defaultHeaders());
 
         $response->assertStatus(200);
     }
 
-    public function test_get_courses_total(): void
+    public function test_get_all_courses_total()
     {
-        $courses = Course::factory()->count(10)->create();
-        
-        $response = $this->getJson('/api/courses', $this->defaultHeadres());
+        Course::factory()->count(10)->create();
+
+        $response = $this->getJson('/api/courses', $this->defaultHeaders());
 
         $response->assertStatus(200)
-                 ->assertJsonCount(count($courses), 'data');
+                    ->assertJsonCount(10, 'data');
     }
 
-    public function test_get_single_course_unauthenticated(): void
+    public function test_get_single_course_unauthenticated()
     {
-        
         $response = $this->getJson('/api/courses/fake_id');
 
         $response->assertStatus(401);
     }
 
-    public function test_get_single_course_not_found(): void
+    public function test_get_single_course_not_found()
     {
-        
-        $response = $this->getJson('/api/courses/fake_id', $this->defaultHeadres());
+        $response = $this->getJson('/api/courses/fake_id', $this->defaultHeaders());
 
         $response->assertStatus(404);
     }
 
-    public function test_get_single_course(): void
+    public function test_get_single_course()
     {
         $course = Course::factory()->create();
-        
-        $response = $this->getJson("/api/courses/{$course}", $this->defaultHeadres());
 
-        $response->assertStatus(404);
+        $response = $this->getJson("/api/courses/{$course->id}", $this->defaultHeaders());
+
+        $response->assertStatus(200);
     }
 }

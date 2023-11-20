@@ -11,40 +11,41 @@ use Tests\TestCase;
 class ModuleTest extends TestCase
 {
     use UtilsTraits;
-    public function test_get_modules_unauthenticated(): void
+
+    public function test_get_modules_unauthenticated()
     {
         $response = $this->getJson('/api/courses/fake_value/modules');
 
         $response->assertStatus(401);
     }
 
-    public function test_get_modules_not_found(): void
+    public function test_get_modules_course_not_found()
     {
-        $response = $this->get('/api/courses/fake_value/modules', $this->defaultHeadres());
+        $response = $this->getJson('/api/courses/fake_value/modules', $this->defaultHeaders());
 
         $response->assertStatus(200)
-                  ->assertJsonCount(0, 'data');
+                    ->assertJsonCount(0, 'data');
     }
 
-    public function test_get_modules_course(): void
+    public function test_get_modules_course()
     {
         $course = Course::factory()->create();
-        
-        $response = $this->getJson("/api/courses/{$course->id}/modules", $this->defaultHeadres());
+
+        $response = $this->getJson("/api/courses/{$course->id}/modules", $this->defaultHeaders());
 
         $response->assertStatus(200);
     }
 
-    public function test_get_modules_course_total(): void
+    public function test_get_modules_course_total()
     {
         $course = Course::factory()->create();
-        $module = Module::factory()->count(10)->create([
+        Module::factory()->count(10)->create([
             'course_id' => $course->id
         ]);
-        
-        $response = $this->getJson("/api/courses/{$course->id}/modules", $this->defaultHeadres());
+
+        $response = $this->getJson("/api/courses/{$course->id}/modules", $this->defaultHeaders());
 
         $response->assertStatus(200)
-                 ->assertJsonCount(10, 'data');
+                    ->assertJsonCount(10, 'data');
     }
 }

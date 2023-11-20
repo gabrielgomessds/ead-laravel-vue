@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Models\Lesson;
 use App\Repositories\Traits\RepositoryTrait;
 
 class LessonRepository
 {
-    protected $entity;
-
     use RepositoryTrait;
+
+    protected $entity;
 
     public function __construct(Lesson $model)
     {
@@ -19,6 +20,7 @@ class LessonRepository
     {
         return $this->entity
                     ->where('module_id', $moduleId)
+                    ->with('supports.replies')
                     ->get();
     }
 
@@ -31,11 +33,11 @@ class LessonRepository
     {
         $user = $this->getUserAuth();
 
-        $view = $user->views->where('lesson_id', $lessonId)->first();
+        $view = $user->views()->where('lesson_id', $lessonId)->first();
 
-        if($view){
+        if ($view) {
             return $view->update([
-                'qty' => $view->qty + 1
+                'qty' => $view->qty + 1,
             ]);
         }
 

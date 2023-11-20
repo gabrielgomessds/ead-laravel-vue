@@ -22,7 +22,7 @@ trait UtilsTraits
         return $token;
     }
 
-    public function defaultHeadres()
+    public function defaultHeaders()
     {
         $token = $this->createTokenUser();
         return [

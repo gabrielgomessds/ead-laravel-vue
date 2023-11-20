@@ -3,14 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Support;
-use App\Models\User;
 use App\Repositories\Traits\RepositoryTrait;
 
 class SupportRepository
 {
-    protected $entity;
-
     use RepositoryTrait;
+
+    protected $entity;
 
     public function __construct(Support $model)
     {
@@ -20,69 +19,66 @@ class SupportRepository
     public function getMySupports(array $filters = [])
     {
         $filters['user'] = true;
+
         return $this->getSupports($filters);
     }
 
     public function getSupports(array $filters = [])
     {
         return $this->entity
-                    ->where(function ($query) use($filters) {
-                        if(isset($filters['lesson'])){
+                    ->where(function ($query) use ($filters) {
+                        if (isset($filters['lesson'])) {
                             $query->where('lesson_id', $filters['lesson']);
                         }
 
-                        if(isset($filters['status'])){
+                        if (isset($filters['status'])) {
                             $query->where('status', $filters['status']);
                         }
 
-                        if(isset($filters['user'])){
-                            $user= $this->getUserAuth();
+                        if (isset($filters['filter'])) {
+                            $filter = $filters['filter'];
+                            $query->where('description', 'LIKE', "%{$filter}%");
+                        }
+
+                        if (isset($filters['user'])) {
+                            $user = $this->getUserAuth();
+
                             $query->where('user_id', $user->id);
                         }
-
-                        if(isset($filters['filter'])){
-                            $filter = $filters['filter'];
-                            $query->where('description','LIKE', "%{$filter}%");
-                        }
-
                     })
+                    ->with('replies')
+                    ->orderBy('updated_at')
                     ->get();
     }
 
     public function createNewSupport(array $data): Support
     {
         $support = $this->getUserAuth()
-             ->supports()
-             ->create([
+                ->supports()
+                ->create([
                     'lesson_id' => $data['lesson'],
-                    'status' => $data['status'],
                     'description' => $data['description'],
-             ]);
+                    'status' => $data['status'],
+                ]);
 
-             return $support;
+        return $support;
     }
 
     public function createReplyToSupportId(string $supportId, array $data)
     {
         $user = $this->getUserAuth();
 
-        $support = app(SupportRepository::class)->getSupport($supportId);
-
-        return $this->entity
+        return $this->getSupport($supportId)
+                    ->replies()
                     ->create([
-                        'support_id' => $data['support'],
                         'description' => $data['description'],
-                        'user_id' => $user->id
-                    ])
-                    ->orderBy('updated_at')
-                    ->get();
+                        'user_id' => $user->id,
+                    ]);
     }
 
     private function getSupport(string $id)
     {
-        //return auth()->user();
         return $this->entity->findOrFail($id);
-
     }
 
 }

@@ -11,48 +11,54 @@ class ViewTest extends TestCase
 {
     use UtilsTraits;
 
-    public function test_make_viewed_unauthorized(): void
+    public function test_make_viewed_unauthorized()
     {
         $response = $this->postJson('/api/lessons/viewed');
 
         $response->assertStatus(401);
     }
 
-    public function test_make_viewed_invalid_validator(): void
+    public function test_make_viewed_error_validator()
     {
-        $playload = [];
+        $payload = [];
+
         $response = $this->postJson(
-            '/api/lessons/viewed', 
-            $playload, 
-            $this->defaultHeadres());
+            '/api/lessons/viewed',
+            $payload,
+            $this->defaultHeaders()
+        );
 
         $response->assertStatus(422);
     }
 
-    public function test_make_viewed_invalid_lesson(): void
+    public function test_make_viewed_invalid_lesson()
     {
-        $playload = [
+        $payload = [
             'lesson' => 'fake_lesson'
         ];
 
         $response = $this->postJson(
-            '/api/lessons/viewed', 
-            $playload, 
-            $this->defaultHeadres());
+            '/api/lessons/viewed',
+            $payload,
+            $this->defaultHeaders()
+        );
 
         $response->assertStatus(422);
     }
 
-    public function test_make_viewed(): void
+    public function test_make_viewed()
     {
         $lesson = Lesson::factory()->create();
 
-        $playload = ['lesson' => $lesson->id];
-        
+        $payload = [
+            'lesson' => $lesson->id,
+        ];
+
         $response = $this->postJson(
-            '/api/lessons/viewed', 
-            $playload, 
-            $this->defaultHeadres());
+            '/api/lessons/viewed',
+            $payload,
+            $this->defaultHeaders()
+        );
 
         $response->assertStatus(200);
     }

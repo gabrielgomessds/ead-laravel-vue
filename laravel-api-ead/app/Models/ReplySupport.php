@@ -14,7 +14,7 @@ class ReplySupport extends Model
 
     protected $keyType = 'uuid';
 
-    protected $fillable = ['description','support_id', 'user_id'];
+    protected $fillable = ['description', 'support_id', 'user_id'];
 
     protected $table = 'reply_support';
 
@@ -29,5 +29,4 @@ class ReplySupport extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

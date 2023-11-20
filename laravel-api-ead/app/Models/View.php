@@ -11,7 +11,6 @@ class View extends Model
 
     protected $fillable = ['lesson_id', 'user_id', 'qty'];
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
