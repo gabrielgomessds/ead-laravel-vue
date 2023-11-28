@@ -2,9 +2,9 @@
     <header id="header">
         <nav>
             <span class="toggleMenu far fa-bars"></span>
-            <span class="logo">
+            <!-- <span class="logo">
                 <img src="images/logo.svg" alt="">
-            </span>
+            </span> -->
         </nav>
     </header>
  </template>
