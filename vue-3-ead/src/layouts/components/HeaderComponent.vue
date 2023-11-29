@@ -10,8 +10,13 @@
  </template>
 
  <script>
- import defaultImage from '../../assets/images/logo.svg';
+ import defaultImage from '@/assets/images/logo.svg';
     export default {
-        name: 'header-component'
+        name: 'header-component',
+        data(){
+            return{
+                defaultImage: defaultImage
+            }
+        }
     }
 </script>
