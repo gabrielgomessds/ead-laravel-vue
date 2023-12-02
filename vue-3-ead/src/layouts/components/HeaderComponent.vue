@@ -3,7 +3,10 @@
         <nav>
             <span class="toggleMenu far fa-bars"></span>
             <span class="logo">
-                <img :src="defaultImage" alt="">
+                <router-link :to="{name: 'campus.home'}">
+                <img :src="defaultImage" alt="EspecializaTI">
+            </router-link>
+                
             </span>
         </nav>
     </header>

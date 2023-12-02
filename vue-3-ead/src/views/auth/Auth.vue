@@ -53,7 +53,7 @@
                                 <input type="password" name="password" placeholder="Senha" required>
                                 <i class="far fa-eye buttom"></i>
                             </div>
-                            <button class="btn primary" type="submit">Login</button>
+                            <button class="btn primary" type="submit" @click.prevent="login">Login</button>
                         </form>
                         <span>
                             <p class="fontSmall">Esqueceu sua senha? 
@@ -76,9 +76,17 @@ import imageLogo from '@/assets/images/logo.svg'
 import bgLogin from '@/assets/images/bgLogin.png'
 import building from '@/assets/images/building.jpg'
 import logoDark from '@/assets/images/logoDark.svg'
+import router from '@/router'
 
     export default{
         name:'Auth',
+        setup() {
+            const login = () => router.push({name: 'campus.home'})
+
+            return {
+                login
+            }
+        },
         data(){
             return{
                 ImageLogo: imageLogo,
